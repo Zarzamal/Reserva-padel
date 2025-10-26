@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión - Pista Pádel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #1abc9c, #16a085);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .login {
+            background-color: rgba(255,255,255,0.1);
+            margin: 80px auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 280px;
+        }
+        input {
+            display: block;
+            margin: 10px auto;
+            padding: 8px;
+            width: 90%;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #2ecc71;
+            border: none;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        .error {
+            color: #ffcccb;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h2>Reserva Pista de Pádel</h2>
+        <form method="POST">
+            <input type="text" name="usuario" placeholder="Usuario" required>
+            <input type="password" name="clave" placeholder="Contraseña" required>
+            <button type="submit">Entrar</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
