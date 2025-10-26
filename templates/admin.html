@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Admin - Pista Pádel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #1abc9c;
+            color: white;
+            padding: 15px;
+        }
+        section {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 700px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        input, select, button {
+            margin: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #16a085;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #138f75;
+        }
+        .mensaje {
+            color: #27ae60;
+        }
+        table {
+            margin: 10px auto;
+            border-collapse: collapse;
+            width: 90%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+        }
+        th {
+            background-color: #16a085;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Panel de Administración</h2>
+        <a href="/reservar" style="color:white;">Volver</a>
+    </header>
+
+    {% if mensaje %}
+        <p class="mensaje">{{ mensaje }}</p>
+    {% endif %}
+
+    <section>
+        <h3>Crear nuevo usuario</h3>
+        <form method="POST">
+            <input type="text" name="nuevo_usuario" placeholder="Nombre usuario" required>
+            <input type="text" name="clave_usuario" placeholder="Contraseña" required>
+            <button type="submit">Crear usuario</button>
+        </form>
+    </section>
+
+    <section>
+        <h3>Bloquear horario</h3>
+        <form method="POST">
+            <label>Fecha:</label>
+            <select name="bloquear_fecha">
+                {% for f in fechas %}
+                    <option value="{{ f }}">{{ f }}</option>
+                {% endfor %}
+            </select>
+            <label>Hora:</label>
+            <select name="bloquear_hora">
+                {% for h in horarios %}
+                    <option value="{{ h }}">{{ h }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Bloquear</button>
+        </form>
+    </section>
+
+    <section>
+        <h3>Usuarios registrados</h3>
+        <table>
+            <tr><th>Nombre</th><th>Tipo</th></tr>
+            {% for nombre, datos in usuarios.items() %}
+                <tr>
+                    <td>{{ nombre }}</td>
+                    <td>{{ "Admin" if datos.is_admin else "Usuario" }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <section>
+        <h3>Horarios bloqueados</h3>
+        <table>
+            <tr><th>Fecha</th><th>Hora</th></tr>
+            {% for f,h in bloqueos %}
+                <tr><td>{{ f }}</td><td>{{ h }}</td></tr>
+            {% endfor %}
+        </table>
+    </section>
+</body>
+</html>
