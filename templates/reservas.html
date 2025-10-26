@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar pista - Pista Pádel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #1abc9c;
+            color: white;
+            padding: 15px;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+            max-width: 700px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #16a085;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #2ecc71;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        .mensaje { color: #16a085; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Bienvenido {{ usuario }}</h2>
+        <a href="/logout" style="color:white;">Cerrar sesión</a>
+        {% if usuario == 'admin' %}
+        | <a href="/admin" style="color:white;">Panel admin</a>
+        {% endif %}
+    </header>
+
+    {% if mensaje %}
+        <p class="mensaje">{{ mensaje }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <label>Fecha:</label>
+        <select name="fecha">
+            {% for f in fechas %}
+                <option value="{{ f }}">{{ f }}</option>
+            {% endfor %}
+        </select>
+        <label>Horario:</label>
+        <select name="hora">
+            {% for h in horarios %}
+                <option value="{{ h }}">{{ h }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Reservar</button>
+    </form>
+
+    <h3>Reservas activas</h3>
+    <table>
+        <tr><th>Fecha</th><th>Hora</th><th>Usuario</th><th>Acción</th></tr>
+        {% for clave, r in reservas.items() %}
+            <tr>
+                <td>{{ clave[0] }}</td>
+                <td>{{ clave[1] }}</td>
+                <td>{{ r.usuario }}</td>
+                <td>
+                    {% if usuario == r.usuario %}
+                        <a href="/cancelar/{{ clave[0] }}/{{ clave[1] }}">Cancelar</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        {% for f,h in bloqueos %}
+            <tr>
+                <td>{{ f }}</td>
+                <td>{{ h }}</td>
+                <td colspan="2" style="color:red;">Bloqueado</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
